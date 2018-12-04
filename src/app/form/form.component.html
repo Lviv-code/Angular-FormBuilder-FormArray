@@ -1,0 +1,50 @@
+<form (ngSubmit)="processForm()" [formGroup]="form">
+
+  <h2>Template forms</h2>
+  <mat-form-field>
+    <input matInput required placeholder="Name" type="text" formControlName="name">
+    <mat-error *ngIf="formErrors.name">
+      {{formErrors.name}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput required placeholder="Username" type="text" formControlName="username">
+    <mat-error *ngIf="formErrors.username">
+      {{formErrors.username}}
+    </mat-error>
+  </mat-form-field>
+
+  <div formArrayName="addresses">
+    <div *ngFor="let address of form.controls.addresses.controls; let i = index;" class="addresses">
+      <h3>Address: {{i+1}}</h3>
+      <div [formGroupName]="i">
+        <mat-form-field>
+          <input matInput required placeholder="city" type="text" formControlName="city">
+          <mat-error *ngIf="formErrors.addresses[i].city">
+              {{formErrors.addresses[i].city}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput required placeholder="country" type="text" formControlName="country">
+          <mat-error *ngIf="formErrors.addresses[i].country">
+              {{formErrors.addresses[i].country}}
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="primary" *ngIf="form.controls.addresses.controls.length > 1" (click)="remouveAddres(i)">
+        <mat-icon>delete</mat-icon>
+        Remouve address
+      </button>
+
+    </div>
+  </div>
+  <div class="buttonGroup">
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button mat-raised-button color="primary" (click)="addAddres()">
+      <mat-icon>add</mat-icon>
+      Add address
+    </button>
+  </div>
+
+
+</form>
